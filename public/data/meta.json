@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-06-22T15:31:19.477Z",
+  "commit": null,
+  "caseCount": 42,
+  "itemCount": 2508,
+  "priceSource": "Skinport (suggested price), USD",
+  "catalogueSource": "ByMykel/CSGO-API",
+  "priceCoverage": "2508/2508 items priced from live listings",
+  "odds": {
+    "mil-spec": 0.7992,
+    "restricted": 0.1598,
+    "classified": 0.032,
+    "covert": 0.0064,
+    "gold": 0.0026
+  }
+}

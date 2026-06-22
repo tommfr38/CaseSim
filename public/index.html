@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CaseSim — CS2 Case Opening Simulator</title>
+    <meta
+      name="description"
+      content="Open every CS2 case for free. Real items, real drop odds, float values, pattern seeds, StatTrak and a live market — without spending a cent."
+    />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AB%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- ───────────────────────── Header ───────────────────────── -->
+    <header class="sticky top-0 z-30 border-b border-white/5 bg-ink-900/80 backdrop-blur-md">
+      <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
+        <button id="brandBtn" class="flex items-center gap-2 group">
+          <span class="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 text-ink-900 text-lg font-extrabold shadow-lg shadow-amber-900/40">◈</span>
+          <span class="font-display text-2xl font-700 tracking-wide">
+            Case<span class="text-amber-400">Sim</span>
+          </span>
+        </button>
+
+        <div class="ml-auto flex items-center gap-2 sm:gap-3">
+          <div class="flex flex-col items-end leading-tight mr-1">
+            <span class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-500">Balance</span>
+            <span id="balance" class="font-mono text-base sm:text-lg font-600 text-emerald-400">$1,000.00</span>
+          </div>
+          <button id="addFundsBtn" class="btn-ghost px-3 py-2 text-sm" title="Add virtual funds">+ Funds</button>
+          <button id="inventoryBtn" class="btn-ghost px-3 py-2 text-sm">
+            🎒 <span class="hidden sm:inline">Inventory</span>
+            <span id="invCount" class="ml-1 rounded-full bg-amber-500/20 px-2 text-xs text-amber-300">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-6">
+      <!-- ─────────────────── Home / case grid ─────────────────── -->
+      <section id="homeView">
+        <div class="mb-8 overflow-hidden rounded-2xl border border-white/5 bg-gradient-to-br from-ink-700 to-ink-800 p-6 sm:p-10">
+          <h1 class="font-display text-4xl font-700 leading-none sm:text-5xl">
+            Open every <span class="text-amber-400">CS2 case</span>. Spend nothing.
+          </h1>
+          <p class="mt-3 max-w-2xl text-slate-400">
+            Real cases, real items, real Valve drop odds. Every unbox rolls a true
+            float value, a pattern seed and a StatTrak chance — then values it with
+            real Skinport market prices. Chase the gold without the heartbreak.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400">
+            <span><b id="statCases" class="text-slate-100">—</b> cases</span>
+            <span><b id="statItems" class="text-slate-100">—</b> items</span>
+            <span>Prices updated <b id="statUpdated" class="text-slate-100">—</b></span>
+            <span>Live prices from <b id="statBuild" class="text-slate-100">—</b></span>
+          </div>
+        </div>
+
+        <div class="mb-4 flex items-center gap-3">
+          <h2 class="font-display text-xl font-600 tracking-wide text-slate-200">Choose a case</h2>
+          <div class="relative ml-auto">
+            <input
+              id="caseSearch"
+              type="search"
+              placeholder="Search cases…"
+              class="w-44 rounded-lg bg-ink-700 px-3 py-2 text-sm ring-1 ring-white/10 placeholder:text-slate-500 focus:w-56 focus:outline-none focus:ring-amber-400/60 transition-all sm:w-56 sm:focus:w-64"
+            />
+          </div>
+        </div>
+
+        <div id="caseGrid" class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <!-- case cards injected -->
+        </div>
+      </section>
+
+      <!-- ─────────────────── Case detail ─────────────────── -->
+      <section id="caseView" class="hidden"></section>
+    </main>
+
+    <footer class="border-t border-white/5 px-4 py-6 text-center text-xs text-slate-500">
+      CaseSim is a fan-made simulator for entertainment. Not affiliated with Valve.
+      Catalogue & images:
+      <a class="text-slate-400 underline hover:text-slate-200" href="https://github.com/ByMykel/CSGO-API" target="_blank" rel="noreferrer">ByMykel/CSGO-API</a>.
+      No real money, no real items.
+    </footer>
+
+    <!-- ─────────────────── Opening overlay ─────────────────── -->
+    <div id="openOverlay" class="fixed inset-0 z-40 hidden items-center justify-center bg-ink-900/95 backdrop-blur-sm">
+      <div class="w-full max-w-5xl px-4">
+        <p id="openCaseName" class="mb-4 text-center font-display text-lg tracking-wide text-slate-400"></p>
+        <div class="relative">
+          <!-- centre marker -->
+          <div class="reel-marker pointer-events-none absolute inset-y-0 left-1/2 z-20 w-px -translate-x-1/2 bg-amber-400/80 shadow-glow shadow-amber-400"></div>
+          <div class="pointer-events-none absolute inset-0 z-10 rounded-xl"
+               style="box-shadow: inset 120px 0 90px -60px #0a0e16, inset -120px 0 90px -60px #0a0e16;"></div>
+          <div class="overflow-hidden rounded-xl ring-1 ring-white/10 bg-ink-800/60">
+            <div id="reel" class="flex py-5 will-change-transform"></div>
+          </div>
+        </div>
+        <p class="mt-5 text-center text-sm text-slate-500">Good luck.</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────── Result modal ─────────────────── -->
+    <div id="resultModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4">
+      <div id="resultCard" class="relative w-full max-w-md overflow-hidden rounded-2xl bg-ink-700 ring-1 ring-white/10 shadow-2xl"></div>
+    </div>
+
+    <!-- ─────────────────── Inventory drawer ─────────────────── -->
+    <div id="inventoryDrawer" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/60" data-close-inv></div>
+      <aside class="absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-ink-800 shadow-2xl ring-1 ring-white/10">
+        <div class="flex items-center gap-3 border-b border-white/5 px-5 py-4">
+          <h2 class="font-display text-xl font-600">Your Inventory</h2>
+          <button class="btn-ghost ml-auto px-3 py-1.5 text-sm" data-close-inv>Close</button>
+        </div>
+        <div id="invStats" class="grid grid-cols-3 gap-2 border-b border-white/5 px-5 py-4 text-center"></div>
+        <div id="invList" class="flex-1 space-y-2 overflow-y-auto px-5 py-4"></div>
+        <div class="border-t border-white/5 px-5 py-3">
+          <button id="resetBtn" class="btn-ghost w-full text-sm text-rose-300 hover:text-rose-200">Reset everything</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- toast -->
+    <div id="toast" class="pointer-events-none fixed bottom-5 left-1/2 z-[60] -translate-x-1/2 opacity-0 transition-opacity"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

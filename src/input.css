@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink-900 text-slate-200 font-body antialiased;
+    background-image:
+      radial-gradient(1200px 600px at 50% -10%, rgba(80, 110, 200, 0.12), transparent 60%),
+      radial-gradient(900px 500px at 90% 0%, rgba(180, 60, 200, 0.08), transparent 55%);
+    background-attachment: fixed;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme("colors.ink.900");
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme("colors.ink.500");
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #34425f;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold transition
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-b from-amber-400 to-amber-600 text-ink-900 shadow-lg shadow-amber-900/40
+           hover:from-amber-300 hover:to-amber-500 active:scale-[0.98] focus-visible:ring-amber-400;
+  }
+  .btn-ghost {
+    @apply btn bg-ink-600/70 text-slate-200 ring-1 ring-white/10 hover:bg-ink-500 active:scale-[0.98]
+           focus-visible:ring-white/40;
+  }
+  .card-surface {
+    @apply rounded-xl bg-ink-700/70 ring-1 ring-white/5 backdrop-blur-sm;
+  }
+
+  /* Rarity tier helpers ---------------------------------------------------- */
+  .tier-milspec    { --tier: theme("colors.rarity.milspec"); }
+  .tier-restricted { --tier: theme("colors.rarity.restricted"); }
+  .tier-classified { --tier: theme("colors.rarity.classified"); }
+  .tier-covert     { --tier: theme("colors.rarity.covert"); }
+  .tier-gold       { --tier: theme("colors.rarity.gold"); }
+
+  .item-card {
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--tier) 22%, transparent) 0%,
+                      rgba(10, 14, 22, 0.2) 55%),
+      theme("colors.ink.700");
+    border-bottom: 3px solid var(--tier);
+  }
+}
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.35);
+  }
+  /* The vertical reel marker glow */
+  .reel-marker::before,
+  .reel-marker::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+  }
+  .reel-marker::before {
+    top: -2px;
+    border-top: 12px solid theme("colors.amber.400");
+  }
+  .reel-marker::after {
+    bottom: -2px;
+    border-bottom: 12px solid theme("colors.amber.400");
+  }
+}

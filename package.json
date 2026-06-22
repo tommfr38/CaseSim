@@ -1,0 +1,19 @@
+{
+  "name": "casesim",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CaseSim — a realistic CS2 case-opening simulator with real cases, items, odds, floats, patterns and a live market.",
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/fetch-data.mjs",
+    "build:css": "tailwindcss -i ./src/input.css -o ./public/assets/styles.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./public/assets/styles.css --watch",
+    "build": "npm run fetch && npm run build:css",
+    "dev": "npm run build && node scripts/serve.mjs",
+    "serve": "node scripts/serve.mjs",
+    "setup:hooks": "node scripts/setup-hooks.mjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}
