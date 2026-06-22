@@ -2,6 +2,22 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
+    <!-- Force HTTPS: bounce any plain-http visit to https (skips localhost dev). -->
+    <script>
+      (function () {
+        var h = location.hostname;
+        if (
+          location.protocol === "http:" &&
+          h !== "localhost" &&
+          h !== "127.0.0.1" &&
+          h !== "0.0.0.0"
+        ) {
+          location.replace(
+            "https://" + location.host + location.pathname + location.search + location.hash
+          );
+        }
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CaseSim — CS2 Case Opening Simulator</title>
     <meta
