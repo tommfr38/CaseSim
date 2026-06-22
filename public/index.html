@@ -9,7 +9,7 @@
       content="Open every CS2 case for free. Real items, real drop odds, float values, pattern seeds, StatTrak and a live market — without spending a cent."
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AB%3C/text%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="stylesheet" href="./assets/styles.css?v=2" />
   </head>
   <body class="min-h-screen flex flex-col">
     <!-- ───────────────────────── Header ───────────────────────── -->
@@ -117,7 +117,8 @@
         <div id="invStats" class="grid grid-cols-3 gap-2 border-b border-white/5 px-5 py-4 text-center"></div>
         <div id="invList" class="flex-1 space-y-2 overflow-y-auto px-5 py-4"></div>
         <div class="space-y-2 border-t border-white/5 px-5 py-3">
-          <button id="invSellAllBtn" class="btn w-full bg-emerald-500 text-ink-900 shadow-lg shadow-emerald-900/40 hover:bg-emerald-400 active:scale-[0.98] focus-visible:ring-emerald-400">Sell all</button>
+          <button id="invSellAllBtn" style="background-color:#10b981;color:#04111a"
+            class="btn w-full font-semibold shadow-lg shadow-emerald-900/40 hover:brightness-110 active:scale-[0.98] focus-visible:ring-emerald-400">Sell all</button>
           <button id="resetBtn" class="btn-ghost w-full text-sm text-rose-300 hover:text-rose-200">Reset everything</button>
         </div>
       </aside>
@@ -126,6 +127,6 @@
     <!-- toast -->
     <div id="toast" class="pointer-events-none fixed bottom-5 left-1/2 z-[60] -translate-x-1/2 opacity-0 transition-opacity"></div>
 
-    <script src="./app.js"></script>
+    <script src="./app.js?v=2"></script>
   </body>
 </html>
