@@ -673,6 +673,18 @@ function sellDrop(drop) {
   toast(`Sold ${drop.name} for ${usd(drop.price)}`);
 }
 
+function sellAll() {
+  if (!state.inventory.length) return;
+  const n = state.inventory.length;
+  const total = round2(state.inventory.reduce((s, d) => s + d.price, 0));
+  state.balance = round2(state.balance + total);
+  state.inventory = [];
+  updateChrome();
+  save();
+  renderInventory();
+  toast(`Sold ${n} item${n > 1 ? "s" : ""} for ${usd(total)}`);
+}
+
 /* --------------------------- inventory ---------------------------------- */
 function renderInventory() {
   const stats = state.stats;
@@ -681,6 +693,13 @@ function renderInventory() {
     <div><div class="text-xs text-slate-500">Opened</div><div class="font-mono text-lg">${stats.opened}</div></div>
     <div><div class="text-xs text-slate-500">Spent</div><div class="font-mono text-lg text-rose-300">${usd(stats.spent)}</div></div>
     <div><div class="text-xs text-slate-500">Net</div><div class="font-mono text-lg ${net >= 0 ? "text-emerald-400" : "text-rose-400"}">${net >= 0 ? "+" : "−"}${usd(Math.abs(net))}</div></div>`;
+
+  const total = round2(state.inventory.reduce((s, d) => s + d.price, 0));
+  const sellAllBtn = $("#invSellAllBtn");
+  sellAllBtn.disabled = state.inventory.length === 0;
+  sellAllBtn.textContent = state.inventory.length
+    ? `Sell all ${state.inventory.length} — ${usd(total)}`
+    : "Sell all";
 
   const list = $("#invList");
   if (!state.inventory.length) {
@@ -759,6 +778,7 @@ async function boot() {
     save();
     toast("+ $100.00 added");
   };
+  $("#invSellAllBtn").onclick = sellAll;
   $("#resetBtn").onclick = () => {
     if (!confirm("Reset balance, inventory and stats?")) return;
     store.removeItem(STORAGE_KEY);
